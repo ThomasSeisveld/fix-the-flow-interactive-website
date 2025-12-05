@@ -1,17 +1,18 @@
 const gallery = document.querySelector('.gallery');
 const gridToggles = document.querySelectorAll('.grid-list-toggle');
 
-const gridSizes = {
-  'extra': '40vw',
-  'large': '30vw',
-  'medium': '20vw',
-  'small': '12vw'
-};
+// grid sizes 
+// const gridSizes = {
+//   'extra': '40vw',
+//   'large': '30vw',
+//   'medium': '20vw',
+//   'small': '12vw'
+// };
 
 gridToggles.forEach((button, index) => {
   button.addEventListener('click', function(e) {
-    e.preventDefault();
-    const parent = this.closest('li');
+    // e.preventDefault();
+    // const parent = this.closest('li');
     let gridClass = '';
     
     if (parent.classList.contains('large-grid')) {
