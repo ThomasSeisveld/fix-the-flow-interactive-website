@@ -111,6 +111,16 @@ nav {
   padding: 0 1vh;
   transition: all 0.3s ease;
 }
+.gallery-extralarge {
+  display: grid;
+  margin: 1vh;
+  grid-template-columns: repeat(auto-fit, minmax(40vw, 1fr));
+  gap: 1vh;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1vh;
+  transition: all 0.3s ease;
+}
 
 .gallery-large {
   display: grid;
@@ -322,7 +332,10 @@ a {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.grid-list-toggle {
+.grid-list-toggle-extralarge,
+.grid-list-toggle-large,
+.grid-list-toggle-medium,
+.grid-list-toggle-small {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -336,7 +349,10 @@ a {
   transition: color 0.2s ease;
 }
 
-.grid-list-toggle:hover {
+.grid-list-toggle-extralarge:hover,
+.grid-list-toggle-large:hover,
+.grid-list-toggle-medium:hover,
+.grid-list-toggle-small:hover {
   color: var(--accent-light);
 }
 
