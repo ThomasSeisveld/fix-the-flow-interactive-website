@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Category Detector</title>
+</head>
+<body>
+
+<h2>Image Category Detector</h2>
+
+<input type="file" id="image" accept="image/*">
+<button onclick="detect()">Detect</button>
+
+<p id="result"></p>
+<img id="preview" style="max-width:300px; display:none;">
+
+<script>
+function detect() {
+  const file = document.getElementById('image').files[0];
+  if (!file) return alert('Choose an image');
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  fetch('https://imagedetector-i28q.onrender.com/detect', {
+    method: 'POST',
+    body: formData
+  })
+
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('result').innerText =
+      'Category: ' + data.category;
+
+    const img = document.getElementById('preview');
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+  })
+  .catch(() => alert('Error detecting image'));
+}
+</script>
+
+</body>
+</html>
