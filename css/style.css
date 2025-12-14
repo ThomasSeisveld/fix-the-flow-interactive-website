@@ -114,7 +114,7 @@ nav {
 .gallery-extralarge {
   display: grid;
   margin: 1vh;
-  grid-template-columns: repeat(auto-fit, minmax(40vw, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   gap: 1vh;
   justify-content: center;
   align-items: center;
