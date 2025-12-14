@@ -31,6 +31,15 @@ function togglesmall() {
   gallery.classList.add('gallery-small');
 }
 
+const captureBtn = document.getElementById('captureBtn');
+const cameraInput = document.getElementById('cameraInput');
+
+captureBtn.addEventListener('click', () => {
+  cameraInput.click(); // opens camera or gallery
+});
+
+
+
 // grid sizes 
 // const gridSizes = {
 //   'extra': '40vw',
