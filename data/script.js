@@ -31,6 +31,9 @@ function togglesmall() {
   gallery.classList.add('gallery-small');
 }
 
+
+// photo input and send to API
+
 const captureBtn = document.getElementById('captureBtn');
 const cameraInput = document.getElementById('cameraInput');
 
@@ -38,7 +41,46 @@ captureBtn.addEventListener('click', () => {
   cameraInput.click(); // opens camera or gallery
 });
 
+cameraInput.addEventListener('change', () => {
+  const file = cameraInput.files[0];
+  if (!file) return;
 
+  sendToApi(file);
+});
+
+async function sendToApi(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch(
+    'https://imagedetector-i28q.onrender.com/detect',
+    {
+      method: 'POST',
+      body: formData
+    }
+  );
+
+  const data = await response.json();
+  addToGallery(file, data.category);
+}
+
+function addToGallery(file, category) {
+  const gallery = document.getElementById('gallery');
+
+  const figure = document.createElement('figure');
+  figure.className = 'gallery-item';
+
+  const img = document.createElement('img');
+  img.src = URL.createObjectURL(file);
+
+  const caption = document.createElement('figcaption');
+  caption.innerText = category;
+
+  figure.appendChild(img);
+  figure.appendChild(caption);
+
+  gallery.prepend(figure); // newest first
+}
 
 // grid sizes 
 // const gridSizes = {
