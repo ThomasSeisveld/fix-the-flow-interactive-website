@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Editor With Download</title>
+    <!-- Cropper CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../css/editor.css" />
+</head>
+
+<body>
+
+    <div class="editor-container">
+        <div class="image-container">
+            <img id="image" />
+        </div>
+
+        <div class="options-btn">
+            <button id="rotate-left">⟲</button>
+            <button id="rotate-right">⟳</button>
+            <button id="scale-X-button">⇋</button>
+            <button id="scale-Y-button">⇅</button>
+
+            <button class="aspect-ratio-btns">1:1</button>
+            <button class="aspect-ratio-btns">4:3</button>
+            <button class="aspect-ratio-btns">16:9</button>
+            <button class="aspect-ratio-btns">Free</button>
+        </div>
+
+        <button id="use-photo">Use photo</button>
+    </div>
+
+    <!-- Cropper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script src="../data/editor.js"></script>
+</body>
+
+</html>

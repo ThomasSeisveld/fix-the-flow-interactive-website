@@ -44,7 +44,31 @@ captureBtn.addEventListener('click', () => {
 cameraInput.addEventListener('change', () => {
   const file = cameraInput.files[0];
   if (!file) return;
-  sendToApi(file);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    Session.save('rawImage', reader.result);
+    window.location.href = 'pages/editor.html';
+  };
+  reader.readAsDataURL(file);
+});
+
+window.addEventListener('load', () => {
+  renderGallery();
+
+  const editedImage = Session.load('editedImage');
+  if (!editedImage) return;
+
+  Session.remove('editedImage');
+
+  fetch(editedImage)
+    .then(res => res.blob())
+    .then(blob => {
+      const file = new File([blob], 'photo.jpg', {
+        type: 'image/jpeg'
+      });
+      sendToApi(file);
+    });
 });
 
 async function sendToApi(file) {
@@ -59,22 +83,51 @@ async function sendToApi(file) {
     }
   );
 
+  if (!res.ok) {
+    addToGallery(file, 'Detection failed');
+    return;
+  }
+
   const data = await res.json();
-  addToGallery(file, data.category);
+  addToGallery(file, data.category || 'Unknown');
 }
 
 function addToGallery(file, category) {
-  const figure = document.createElement('figure');
-  figure.className = 'gallery-item';
+  const reader = new FileReader();
 
-  const img = document.createElement('img');
-  img.src = URL.createObjectURL(file);
+  reader.onload = () => {
+    const items = Session.load('galleryItems') || [];
 
-  const caption = document.createElement('figcaption');
-  caption.innerText = category;
+    items.unshift({
+      image: reader.result,
+      category
+    });
 
-  figure.append(img, caption);
-  gallery.prepend(figure);
+    Session.save('galleryItems', items);
+    renderGallery();
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function renderGallery() {
+  gallery.innerHTML = '';
+
+  const items = Session.load('galleryItems') || [];
+
+  items.forEach(item => {
+    const figure = document.createElement('figure');
+    figure.className = 'gallery-item';
+
+    const img = document.createElement('img');
+    img.src = item.image;
+
+    const caption = document.createElement('figcaption');
+    caption.innerText = item.category;
+
+    figure.append(img, caption);
+    gallery.append(figure);
+  });
 }
 
 // grid sizes 
