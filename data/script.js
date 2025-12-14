@@ -5,6 +5,10 @@ const largeBtn = document.querySelector('.grid-list-toggle-large');
 const mediumBtn = document.querySelector('.grid-list-toggle-medium');
 const smallBtn = document.querySelector('.grid-list-toggle-small');
 const gallery = document.querySelector('.gallery');
+const captureBtn = document.getElementById('captureBtn');
+const cameraInput = document.getElementById('cameraInput');
+
+
 
 extralargeBtn.addEventListener("click", toggleextralarge);
 largeBtn.addEventListener("click", togglelarge);
@@ -33,18 +37,13 @@ function togglesmall() {
 
 
 // photo input and send to API
-
-const captureBtn = document.getElementById('captureBtn');
-const cameraInput = document.getElementById('cameraInput');
-
 captureBtn.addEventListener('click', () => {
-  cameraInput.click(); // opens camera or gallery
+  cameraInput.click();
 });
 
 cameraInput.addEventListener('change', () => {
   const file = cameraInput.files[0];
   if (!file) return;
-
   sendToApi(file);
 });
 
@@ -52,7 +51,7 @@ async function sendToApi(file) {
   const formData = new FormData();
   formData.append('image', file);
 
-  const response = await fetch(
+  const res = await fetch(
     'https://imagedetector-i28q.onrender.com/detect',
     {
       method: 'POST',
@@ -60,13 +59,11 @@ async function sendToApi(file) {
     }
   );
 
-  const data = await response.json();
+  const data = await res.json();
   addToGallery(file, data.category);
 }
 
 function addToGallery(file, category) {
-  const gallery = document.getElementById('gallery');
-
   const figure = document.createElement('figure');
   figure.className = 'gallery-item';
 
@@ -76,10 +73,8 @@ function addToGallery(file, category) {
   const caption = document.createElement('figcaption');
   caption.innerText = category;
 
-  figure.appendChild(img);
-  figure.appendChild(caption);
-
-  gallery.prepend(figure); // newest first
+  figure.append(img, caption);
+  gallery.prepend(figure);
 }
 
 // grid sizes 
