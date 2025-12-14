@@ -11,7 +11,7 @@ let cropper;
 let scaleX = 1;
 let scaleY = 1;
 
-const rawImage = sessionStorage.getItem("rawImage");
+const rawImage = Session.load("rawImage");
 
 if (!rawImage) {
   alert("No image found");
@@ -58,6 +58,6 @@ usePhotoBtn.onclick = () => {
 
   const editedImage = canvas.toDataURL("image/jpeg", 0.9);
 
-  sessionStorage.setItem("editedImage", editedImage);
+  Session.save("editedImage", editedImage);
   window.location.href = "../index.html";
 };

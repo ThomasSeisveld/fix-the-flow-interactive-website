@@ -4,7 +4,7 @@ const extralargeBtn = document.querySelector('.grid-list-toggle-extralarge');
 const largeBtn = document.querySelector('.grid-list-toggle-large');
 const mediumBtn = document.querySelector('.grid-list-toggle-medium');
 const smallBtn = document.querySelector('.grid-list-toggle-small');
-const gallery = document.querySelector('.gallery');
+const gallery = document.getElementById('gallery');
 const captureBtn = document.getElementById('captureBtn');
 const cameraInput = document.getElementById('cameraInput');
 
@@ -71,6 +71,7 @@ window.addEventListener('load', () => {
     });
 });
 
+
 async function sendToApi(file) {
   const formData = new FormData();
   formData.append('image', file);
@@ -91,6 +92,7 @@ async function sendToApi(file) {
   const data = await res.json();
   addToGallery(file, data.category || 'Unknown');
 }
+
 
 function addToGallery(file, category) {
   const reader = new FileReader();
@@ -115,20 +117,26 @@ function renderGallery() {
 
   const items = Session.load('galleryItems') || [];
 
-  items.forEach(item => {
+  items.forEach((item, index) => {
     const figure = document.createElement('figure');
     figure.className = 'gallery-item';
 
     const img = document.createElement('img');
-    img.src = item.image;
-
     const caption = document.createElement('figcaption');
-    caption.innerText = item.category;
-
+    img.src = item.image;
+    img.alt = item.category;
+    
     figure.append(img, caption);
+
+    figure.addEventListener('click', () => {
+      Session.save('detailItem', item);
+      window.location.href = 'pages/detail.html';
+    });
+
     gallery.append(figure);
   });
 }
+
 
 // grid sizes 
 // const gridSizes = {
