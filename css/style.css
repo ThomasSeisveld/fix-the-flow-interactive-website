@@ -73,6 +73,10 @@ nav {
   justify-content: center;
 }
 
+.detail .gallery{
+  grid-template-columns: none;
+}
+
 .mobile-content form {
   margin: 1em;
   border-radius: var(--border-radius-small);
